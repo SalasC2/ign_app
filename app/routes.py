@@ -4,8 +4,10 @@ import mysql.connector
 import MySQLdb
 import csv
 import json
+import os
+
 conn = MySQLdb.connect(host=os.getenv("DB_HOST"), 
-                    port=os.getenv("PORT"),
+                    port=int(os.getenv("PORT")),
                     user = os.getenv("USERNAME"),
                     passwd = os.getenv("PASSWORD"),
                     db = os.getenv("DATABASE"))
@@ -35,24 +37,22 @@ def categories():
 
 @app.route("/getArticlesByCategory/<string:category_type>") 
 def category_articles(category_type):
-    category_ids = list()
     cursor.execute(""" SELECT * FROM article 
-                        INNER_JOIN cateogry_article ON article.article_id = category_article.article_id 
-                        INNER JOIN category ON cateory.category_id = category_article.category_id 
+                        INNER JOIN category_article ON article.article_id = category_article.article_id 
+                        INNER JOIN category ON category.category_id = category_article.category_id 
                         WHERE category_type = %s; """, [category_type])
     r = [dict((cursor.description[i][0], value)
            for i, value in enumerate(row)) for row in cursor.fetchall()]
-    return jsonify({'Articles by category' : r})     
+    return jsonify({'Articles by %s' % category_type: r})      
 
 
 @app.route("/getVideosByCategory/<string:category_type>") 
-def category_articles(category_type):
-    category_ids = list()
+def video_articles(category_type):
     cursor.execute(""" SELECT * FROM video 
-                        INNER_JOIN cateogry_article ON video.video_id = category_article.article_id 
-                        INNER JOIN category ON cateory.category_id = category_article.category_id 
+                        INNER JOIN category_video ON video.video_id = category_video.video_id 
+                        INNER JOIN category ON category.category_id = category_video.category_id 
                         WHERE category_type = %s; """, [category_type])
     r = [dict((cursor.description[i][0], value)
            for i, value in enumerate(row)) for row in cursor.fetchall()]
-    return jsonify({'Videos By category ' : r})   
+    return jsonify({'Videos By %s' % category_type : r})   
        

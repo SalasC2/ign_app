@@ -6,7 +6,7 @@ import datetime
 import os
 
 conn = MySQLdb.connect(host=os.getenv("DB_HOST"), 
-                    port=os.getenv("PORT"),
+                    port=int(os.getenv("PORT")),
                     user = os.getenv("USERNAME"),
                     passwd = os.getenv("PASSWORD"),
                     db = os.getenv("DATABASE"))
