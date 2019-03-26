@@ -23,7 +23,7 @@
 
 # How to use
 - ### Run `python requirements.txt` to install all dependencies
-- ### Run `cp templateds.env .env` and fill your .env with the necessary data
+- ### Run `cp templates.env .env` and fill your .env with the necessary data
 - ### Run codefoo.csv on load_data.py, this will create a new csv with all the necessary data this script needs in a csv file main.csv
 - ### Add data to article table, video table, category table by load_data file and add articles logic, add videos logic, and add categories logic
 - ### In order to insert data into join table for category_article and category_video, you have to manually change the category_type inside the sql statements as well as change the if statements right at the beginning of the loop after the sql call.
